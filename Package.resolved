@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Clibcuda",
+        "repositoryURL": "https://github.com/theia-ai/Clibcuda.git",
+        "state": {
+          "branch": "master",
+          "revision": "be65ba51fad079fcdc09290903095dbdc17e311c",
+          "version": null
+        }
+      },
+      {
+        "package": "Clibvisionworks",
+        "repositoryURL": "https://github.com/theia-ai/Clibvisionworks.git",
+        "state": {
+          "branch": "master",
+          "revision": "cdb7a9fd53a2f2ced5840c168b7de7b8485b1b8b",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
