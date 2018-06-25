@@ -17,7 +17,6 @@ extension InterpolationPolicy {
       return vx_int32(Clibvisionworks.VX_INTERPOLATION_BILINEAR.rawValue)
     case .Area:
       return vx_int32(Clibvisionworks.VX_INTERPOLATION_AREA.rawValue)
-
     }
   }
 }
