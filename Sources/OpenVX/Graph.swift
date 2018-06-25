@@ -33,6 +33,10 @@ public class Graph: Referenceable {
     return node
   }
 
+  public func verify() -> Int32 {
+    return vxVerifyGraph(reference)
+  }
+
   public func process() -> Int32 {
     return vxProcessGraph(reference)
   }
