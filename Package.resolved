@@ -5,9 +5,9 @@
         "package": "Clibcuda",
         "repositoryURL": "https://github.com/theia-ai/Clibcuda.git",
         "state": {
-          "branch": "master",
-          "revision": "be65ba51fad079fcdc09290903095dbdc17e311c",
-          "version": null
+          "branch": null,
+          "revision": "687abf781eaba497b5329439472abb15339a09e8",
+          "version": "9.0.0"
         }
       },
       {

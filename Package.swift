@@ -11,7 +11,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(url: "https://github.com/theia-ai/Clibcuda.git", .branch("master")),
+    .package(url: "https://github.com/theia-ai/Clibcuda.git", .upToNextMinor(from: "9.0.0")),
     .package(url: "https://github.com/theia-ai/Clibvisionworks.git", .branch("master")),
   ],
   targets: [
