@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "Clibcuda",
-        "repositoryURL": "git@githb.com:ilmco/Clibcuda.git",
+        "repositoryURL": "git@github.com:ilmco/Clibcuda.git",
         "state": {
           "branch": null,
           "revision": "687abf781eaba497b5329439472abb15339a09e8",
@@ -12,7 +12,7 @@
       },
       {
         "package": "Clibvisionworks",
-        "repositoryURL": "git@githb.com:ilmco/Clibvisionworks.git",
+        "repositoryURL": "git@github.com:ilmco/Clibvisionworks.git",
         "state": {
           "branch": "master",
           "revision": "cdb7a9fd53a2f2ced5840c168b7de7b8485b1b8b",
