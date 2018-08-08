@@ -10,7 +10,6 @@ public typealias KernelValidatorFunction = vx_kernel_validate_f
 fileprivate func internalCallback(context:vx_context?, reference:vx_reference?, status:Int32, messageBytes: UnsafePointer<Int8>?) {
   let message = messageBytes != nil ? String(cString:messageBytes!) : nil
   guard let context = context else {
-    print("OpenVX: \(reference) \(status) \(message ?? "")")
     return
   }
   guard let callback = registry[context] else {
