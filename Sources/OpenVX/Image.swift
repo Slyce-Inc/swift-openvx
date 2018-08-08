@@ -2,13 +2,14 @@ import Clibvisionworks
 
 
 public class Image: Referenceable, Imageable {
+  public typealias Planes = [UnsafeMutableRawPointer?]
+
   public let reference: vx_image
-  private let ptrs: [UnsafeMutableRawPointer?]?
+  private var planes: Planes? = nil
 
   public init(reference: vx_image) {
     vxRetainReference(reference)
     self.reference = reference
-    self.ptrs = nil
   }
 
   public init?(context: Context, width: Int, height: Int, type: ImageType, memoryType: MemoryType = .None) {
@@ -21,34 +22,42 @@ public class Image: Referenceable, Imageable {
           return nil
         }
         self.reference = reference
-        self.ptrs = nil
 
       case .Host:
         let addrs = type.vx_imagepatch_addressing(width: width, height:height)
-        guard let ptrs = type.allocateMemory(width:width, height:height) else {
+        guard let planes = type.allocatePlanes(width:width, height:height) else {
           return nil
         }
-        guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, addrs, ptrs, memoryType.vx_value) else {
+        guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, addrs, planes, memoryType.vx_value) else {
           return nil
         }
-        self.ptrs = ptrs
+        self.planes = planes
         self.reference = reference
     }
   }
 
   deinit {
     vxReleaseImage(reference)
-    if let ptrs = self.ptrs {
-      free(ptrs[0])
+    if let planes = self.planes {
+      free(planes[0])
     }
   }
 
-  public func create(fromROI rectangle: Rectangle) -> Image? {
+  public func from(regionOfInterest rectangle: Rectangle) -> Image? {
     var r = rectangle
     guard let reference = vxCreateImageFromROI(self.reference, &r) else {
       return nil
     }
     return Image(reference: reference)
+  }
+
+  public func swap(planes: Planes) -> Planes? {
+    var newPlanes = planes
+    var nowPlanes = Planes(repeating: nil, count: planes.count)
+    guard VX_SUCCESS == vxSwapImageHandle(self.reference, &newPlanes, &nowPlanes, vx_size(planes.count)) else {
+      return nil
+    }
+    return nowPlanes
   }
 }
 
@@ -96,7 +105,7 @@ private extension ImageType {
 }
 
 private extension ImageType {
-  func allocateMemory(width:Int, height:Int) -> [UnsafeMutableRawPointer?]? {
+  func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
     switch self {
       case .U8:
         guard let ptr = malloc(width * height) else {
