@@ -2,7 +2,9 @@ import Clibvisionworks
 
 
 public class Image: Referenceable, Imageable {
-  public typealias Planes = [UnsafeMutableRawPointer?]
+  public typealias Plane = UnsafeMutableRawPointer
+  public typealias Planes = [Plane?]
+  public typealias PatchAddressing = vx_imagepatch_addressing_t
 
   public let reference: vx_image
   private var planes: Planes? = nil
@@ -73,6 +75,36 @@ public extension Image {
     defer { vxCommitImagePatch(self.reference, nil, vx_uint32(plane), &addr, base) }
     let x = block(addr, base!)
     return x
+  }
+}
+
+public extension Image {
+  public class Mapping {
+    let image: Image
+    let mapId: vx_map_id
+    public let memory: Plane?
+    public let addressing: PatchAddressing
+
+    init(image:Image, mapId: vx_map_id, memory:Plane?, addressing:PatchAddressing) {
+      self.image = image
+      self.mapId = mapId
+      self.memory = memory
+      self.addressing = addressing
+    }
+
+    deinit {
+      vxUnmapImagePatch(image.reference, mapId)
+    }
+  }
+
+  public func map(rectangle: Rectangle? = nil, plane:Int, usage:Usage) -> Mapping? {
+    var addr = Image.PatchAddressing()
+    var ptr: Image.Plane?
+    var map_id: vx_map_id = 0
+    guard VX_SUCCESS == vxMapImagePatch(self, rectangle, plane, &map_id, &addr, &ptr, usage, .Host, 0) else {
+      return nil
+    }
+    return Mapping(image:self, mapId:map_id, memory:ptr, addressing:addr)
   }
 }
 
