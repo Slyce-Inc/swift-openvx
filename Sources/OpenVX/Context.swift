@@ -7,6 +7,18 @@ fileprivate var registry: [vx_context:LogCallback] = [:]
 public typealias KernelHostSideFunction = vx_kernel_f
 public typealias KernelValidatorFunction = vx_kernel_validate_f
 
+fileprivate func internalCallback(context:vx_context?, reference:vx_reference?, status:Int32, messageBytes: UnsafePointer<Int8>?) {
+  let message = messageBytes != nil ? String(cString:messageBytes!) : nil
+  guard let context = context else {
+    print("OpenVX: \(reference) \(status) \(message ?? "")")
+    return
+  }
+  guard let callback = registry[context] else {
+    return
+  }
+  callback(reference, status, message)
+}
+
 
 public class Context {
   public let reference: vx_context
@@ -15,7 +27,7 @@ public class Context {
     set {
       if nil != newValue && registry[reference] == nil {
         registry[reference] = newValue
-        vxRegisterLogCallback(reference, { registry[$0!]?($1, $2, $3 != nil ? String(cString: $3!) : nil) }, vx_false_e)
+        vxRegisterLogCallback(reference, internalCallback, vx_false_e)
       } else if nil == newValue {
         vxRegisterLogCallback(reference, nil, vx_false_e)
         registry.removeValue(forKey: reference)
