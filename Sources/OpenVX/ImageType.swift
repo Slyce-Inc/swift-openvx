@@ -6,6 +6,7 @@ public enum ImageType {
   case S16
   case RGB
   case NV12
+  case IYUV
   case YUV4
   case Virtual
 }
@@ -21,6 +22,8 @@ extension ImageType {
       return vx_df_image(Clibvisionworks.VX_DF_IMAGE_RGB.rawValue)
     case .NV12:
       return vx_df_image(Clibvisionworks.VX_DF_IMAGE_NV12.rawValue)
+    case .IYUV:
+      return vx_df_image(Clibvisionworks.VX_DF_IMAGE_IYUV.rawValue)
     case .YUV4:
       return vx_df_image(Clibvisionworks.VX_DF_IMAGE_YUV4.rawValue)
     case .Virtual:
