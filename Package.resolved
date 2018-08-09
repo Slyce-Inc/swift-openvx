@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "Clibcuda",
-        "repositoryURL": "https://github.com/theia-ai/Clibcuda.git",
+        "repositoryURL": "git@github.com:ilmco/Clibcuda.git",
         "state": {
-          "branch": null,
-          "revision": "687abf781eaba497b5329439472abb15339a09e8",
-          "version": "9.0.0"
+          "branch": "master",
+          "revision": "1419e94870bae7bd226f76ed7a4ffc662b76831c",
+          "version": null
         }
       },
       {
