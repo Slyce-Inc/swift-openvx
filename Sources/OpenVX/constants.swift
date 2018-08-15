@@ -9,14 +9,16 @@ public let VX_THRESHOLD_FALSE_VALUE     = Int32((VX_ID_KHRONOS.rawValue ) << 20)
 public let VX_THRESHOLD_TYPE_BINARY = Int32(Clibvisionworks.VX_THRESHOLD_TYPE_BINARY.rawValue)
 public let VX_THRESHOLD_TYPE_RANGE  = Int32(Clibvisionworks.VX_THRESHOLD_TYPE_RANGE.rawValue)
 
-public let VX_DF_IMAGE_VIRT = UInt32(Clibvisionworks.VX_DF_IMAGE_VIRT.rawValue)
-public let VX_DF_IMAGE_NV12 = UInt32(Clibvisionworks.VX_DF_IMAGE_NV12.rawValue)
-public let VX_DF_IMAGE_U8   = UInt32(Clibvisionworks.VX_DF_IMAGE_U8.rawValue)
-public let VX_DF_IMAGE_S16  = UInt32(Clibvisionworks.VX_DF_IMAGE_S16.rawValue)
-public let VX_DF_IMAGE_RGB  = UInt32(Clibvisionworks.VX_DF_IMAGE_RGB.rawValue)
+public let VX_DF_IMAGE_VIRT = Clibvisionworks.VX_DF_IMAGE_VIRT.rawValue
+public let VX_DF_IMAGE_NV12 = Clibvisionworks.VX_DF_IMAGE_NV12.rawValue
+public let VX_DF_IMAGE_U8   = Clibvisionworks.VX_DF_IMAGE_U8.rawValue
+public let VX_DF_IMAGE_S16  = Clibvisionworks.VX_DF_IMAGE_S16.rawValue
+public let VX_DF_IMAGE_RGB  = Clibvisionworks.VX_DF_IMAGE_RGB.rawValue
+public let VX_DF_IMAGE_IYUV = Clibvisionworks.VX_DF_IMAGE_IYUV.rawValue
+public let VX_DF_IMAGE_YUV4 = Clibvisionworks.VX_DF_IMAGE_YUV4.rawValue
 
-public let VX_SUCCESS = vx_status(Clibvisionworks.VX_SUCCESS.rawValue)
-public let VX_FAILURE = vx_status(Clibvisionworks.VX_FAILURE.rawValue)
+public let VX_SUCCESS = Clibvisionworks.VX_SUCCESS.rawValue
+public let VX_FAILURE = Clibvisionworks.VX_FAILURE.rawValue
 
 public let VX_READ_ONLY      = Int32(Clibvisionworks.VX_READ_ONLY.rawValue)
 public let VX_READ_AND_WRITE = Int32(Clibvisionworks.VX_READ_AND_WRITE.rawValue)
