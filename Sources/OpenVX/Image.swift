@@ -14,35 +14,24 @@ public class Image: Referenceable, Imageable {
     self.reference = reference
   }
 
-  public init?(context: Context, width: Int, height: Int, type: ImageType, memoryType: MemoryType = .None) {
-    if type == .Virtual {
-      fatalError("OpenVX.Image should never be created with type .Virtual")
+  public init?(context: Context, width: Int, height: Int, type: ImageType) {
+    assert(type != .Virtual, "OpenVX.Image should never be created with type .Virtual")
+    guard let reference = vxCreateImage(context.reference, vx_uint32(width), vx_uint32(height), type.vx_value) else {
+      return nil
     }
-    switch memoryType {
-      case .None:
-        guard let reference = vxCreateImage(context.reference, vx_uint32(width), vx_uint32(height), type.vx_value) else {
-          return nil
-        }
-        self.reference = reference
+    self.reference = reference
+  }
 
-      case .Host:
-        let addrs = type.vx_imagepatch_addressing(width: width, height:height)
-        guard let planes = type.allocatePlanes(width:width, height:height) else {
-          return nil
-        }
-        guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, addrs, planes, memoryType.vx_value) else {
-          return nil
-        }
-        self.planes = planes
-        self.reference = reference
+  public init?(context: Context, width: Int, height: Int, type: ImageType, memoryType: MemoryType) {
+    assert(type != .Virtual, "OpenVX.Image should never be created with type .Virtual")
+    guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, type.calculateImagePatchAddressing(width:width, height:height), nil, memoryType.vx_value) else {
+      return nil
     }
+    self.reference = reference
   }
 
   deinit {
     vxReleaseImage(reference)
-    if let planes = self.planes {
-      free(planes[0])
-    }
   }
 
   public func from(regionOfInterest rectangle: Rectangle) -> Image? {
@@ -50,9 +39,11 @@ public class Image: Referenceable, Imageable {
     guard let reference = vxCreateImageFromROI(self.reference, &r) else {
       return nil
     }
+    defer { vxReleaseImage(reference) }
     return Image(reference: reference)
   }
 
+  @discardableResult
   public func swap(planes: Planes) -> Planes? {
     var newPlanes = planes
     var nowPlanes = Planes(repeating: nil, count: planes.count)
@@ -108,8 +99,8 @@ public extension Image {
   }
 }
 
-private extension ImageType {
-  func vx_imagepatch_addressing(width:Int, height:Int) -> [vx_imagepatch_addressing_t] {
+extension ImageType {
+  public func calculateImagePatchAddressing(width:Int, height:Int) -> [vx_imagepatch_addressing_t] {
     switch self {
       case .U8:
         return [
@@ -136,8 +127,8 @@ private extension ImageType {
   }
 }
 
-private extension ImageType {
-  func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
+extension ImageType {
+  public func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
     switch self {
       case .U8:
         guard let ptr = malloc(width * height) else {
@@ -172,6 +163,21 @@ private extension ImageType {
 
       default:
         preconditionFailure("ImageType (\(self)) is unimplemented")
+    }
+  }
+}
+
+extension ImageType {
+  public var numberOfPlanes:Int {
+    switch self {
+    case .U8, .RGB:
+      return 1
+    case .NV12:
+      return 2
+    case .IYUV:
+      return 3
+    default:
+      fatalError("Unimplemented ImageType")
     }
   }
 }
