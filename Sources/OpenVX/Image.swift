@@ -22,9 +22,9 @@ public class Image: Referenceable, Imageable {
     self.reference = reference
   }
 
-  public init?(context: Context, width: Int, height: Int, type: ImageType, memoryType: MemoryType) {
+  public init?(context: Context, width: Int, height: Int, type: ImageType, planes:Planes, memoryType: MemoryType) {
     assert(type != .Virtual, "OpenVX.Image should never be created with type .Virtual")
-    guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, type.calculateImagePatchAddressing(width:width, height:height), nil, memoryType.vx_value) else {
+    guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, type.calculateImagePatchAddressing(width:width, height:height), planes, memoryType.vx_value) else {
       return nil
     }
     self.reference = reference
@@ -43,11 +43,10 @@ public class Image: Referenceable, Imageable {
     return Image(reference: reference)
   }
 
-  @discardableResult
   public func swap(planes: Planes) -> Planes? {
     var newPlanes = planes
     var nowPlanes = Planes(repeating: nil, count: planes.count)
-    guard VX_SUCCESS == vxSwapImageHandle(self.reference, &newPlanes, &nowPlanes, vx_size(planes.count)) else {
+    if case let result = vxSwapImageHandle(self.reference, &newPlanes, &nowPlanes, vx_size(planes.count)), result != VX_SUCCESS {
       return nil
     }
     return nowPlanes
