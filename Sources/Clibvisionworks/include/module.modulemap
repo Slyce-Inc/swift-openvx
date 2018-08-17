@@ -1,0 +1,5 @@
+module Clibvisionworks [system] {
+  header "shim.h"
+  link "visionworks"
+  export *
+}

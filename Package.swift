@@ -5,14 +5,11 @@ import PackageDescription
 let package = Package(
   name: "OpenVX",
   products: [
-    .library(
-      name: "OpenVX",
-      targets: ["OpenVX"]
-    ),
+    .library(name: "OpenVX", targets: ["OpenVX"]),
+    .library(name: "Clibvisionworks", targets: ["Clibvisionworks"])
   ],
   dependencies: [
-    .package(url: "git@github.com:ilmco/Clibcuda.git", .branch("master")),
-    .package(url: "git@github.com:ilmco/Clibvisionworks.git", .branch("master")),
+    .package(url: "git@github.com:ilmco/Clibcuda.git", .branch("master"))
   ],
   targets: [
     .target(
@@ -22,6 +19,10 @@ let package = Package(
     .testTarget(
       name: "OpenVXTests",
       dependencies: ["OpenVX"]
+    ),
+    .target(
+      name: "Clibvisionworks",
+      dependencies: []
     ),
   ]
 )

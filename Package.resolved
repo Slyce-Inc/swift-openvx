@@ -9,15 +9,6 @@
           "revision": "1419e94870bae7bd226f76ed7a4ffc662b76831c",
           "version": null
         }
-      },
-      {
-        "package": "Clibvisionworks",
-        "repositoryURL": "https://github.com/theia-ai/Clibvisionworks.git",
-        "state": {
-          "branch": "master",
-          "revision": "cdb7a9fd53a2f2ced5840c168b7de7b8485b1b8b",
-          "version": null
-        }
       }
     ]
   },
