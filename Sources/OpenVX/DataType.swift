@@ -4,6 +4,7 @@ import Clibvisionworks
 public enum DataType {
 case Float32
 case Int32
+case UInt32
 case UInt8
 case Bool
 case Rectangle
@@ -17,6 +18,8 @@ extension DataType {
       return .Float32
     case is Int32.Type:
       return .Int32
+    case is UInt32.Type:
+      return .UInt32
     case is UInt8.Type:
       return .UInt8
     case is Bool.Type:
@@ -37,6 +40,8 @@ extension DataType {
       return vx_int32(Clibvisionworks.VX_TYPE_FLOAT32.rawValue)
     case .Int32:
       return vx_int32(Clibvisionworks.VX_TYPE_INT32.rawValue)
+    case .UInt32:
+      return vx_int32(Clibvisionworks.VX_TYPE_UINT32.rawValue)
     case .UInt8:
       return vx_int32(Clibvisionworks.VX_TYPE_UINT8.rawValue)
     case .Bool:

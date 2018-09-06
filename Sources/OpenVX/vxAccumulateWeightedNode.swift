@@ -11,7 +11,7 @@ public func vxAccumulateWeightedImageNode(_ graph: Graph, _ input: Imageable, _ 
 
 public extension Pipeline {
   public func accumulateWeighted(into image: Imageable, alpha: Scalar<Float>) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxAccumulateWeightedImageNode(graph, lastImageOrFail(), alpha, targetImage))
       .byChanging(images:self.images.appending(targetImage))

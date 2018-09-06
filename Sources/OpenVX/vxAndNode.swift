@@ -11,7 +11,7 @@ public func vxAndNode(_ graph: Graph, _ input1: Imageable, _ input2: Imageable, 
 
 public extension Pipeline {
   public func and(image: Imageable) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxAndNode(graph, lastImageOrFail(), image, targetImage))
       .byChanging(images:self.images.appending(targetImage))

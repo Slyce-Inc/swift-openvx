@@ -43,6 +43,7 @@ public class Image: Referenceable, Imageable {
     return Image(reference: reference)
   }
 
+  @discardableResult
   public func swap(planes: Planes) -> Planes? {
     var newPlanes = planes
     var nowPlanes = Planes(repeating: nil, count: planes.count)
@@ -52,7 +53,6 @@ public class Image: Referenceable, Imageable {
     return nowPlanes
   }
 }
-
 
 
 public extension Image {

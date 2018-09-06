@@ -22,4 +22,12 @@ public extension Imageable {
     }
     return Int(value)
   }
+
+  public var format: ImageType {
+    var value: Int32 = 0
+    guard VX_SUCCESS == vxQueryImage(self.reference, VX_IMAGE_FORMAT, &value, MemoryLayout<Int32>.size) else {
+      preconditionFailure("Unable to extract VX_IMAGE_FORMAT from \(reference)")
+    }
+    return .U8
+  }
 }

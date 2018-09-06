@@ -8,12 +8,17 @@ public struct Pipeline {
   public let height: Int
   public let border: Border!
   public let images: [Imageable]
+  public let targetImage: Imageable?
 
   public var image: Imageable! {
     return images.last
   }
 
-  public func virtualImageOrFail(type: ImageType) -> Imageable {
+  public func targetImageOrFail(type: ImageType) -> Imageable {
+    if let targetImage = self.targetImage {
+      assert(targetImage.format == type, "Supplied targetImage is not of the type (\(image.format)) required \(type)")
+      return targetImage
+    }
     guard let image = graph.createImage(width: self.width, height: self.height, type: type) else {
       preconditionFailure("TODO: Write me")
     }
@@ -38,7 +43,8 @@ public struct Pipeline {
       width: self.width,
       height: self.height,
       border: self.border,
-      images: self.images
+      images: self.images,
+      targetImage: self.targetImage
     )
   }
 
@@ -49,7 +55,8 @@ public struct Pipeline {
       width: self.width,
       height: self.height,
       border: self.border,
-      images: images
+      images: images,
+      targetImage: self.targetImage
     )
   }
 
@@ -60,7 +67,8 @@ public struct Pipeline {
       width: width,
       height: height,
       border: self.border,
-      images: self.images
+      images: self.images,
+      targetImage: self.targetImage
     )
   }
 
@@ -71,7 +79,20 @@ public struct Pipeline {
       width: self.width,
       height: self.height,
       border: border,
-      images: self.images
+      images: self.images,
+      targetImage: self.targetImage
+    )
+  }
+
+  public func byChanging(targetImage:Imageable) -> Pipeline {
+    return Pipeline(
+      graph: self.graph,
+      node: self.node,
+      width: self.width,
+      height: self.height,
+      border: self.border,
+      images: self.images,
+      targetImage: targetImage
     )
   }
 }
@@ -99,43 +120,43 @@ public extension Pipeline {
 
 public extension Pipeline {
   public func or(image: Imageable) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxOrNode(graph, lastImageOrFail(), image, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
   public func apply(lookupTable: LookupTable) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxTableLookupNode(graph, lastImageOrFail(), lookupTable, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
   public func apply(threshold: Threshold) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxThresholdNode(graph, lastImageOrFail(), threshold, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
   public func warpAffine(matrix: Matrix<Float>, interpolationPolicy: InterpolationPolicy) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxWarpAffineNode(graph, lastImageOrFail(), matrix, interpolationPolicy, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
   public func sobel3x3() -> Pipeline {
-    let targetImage1 = virtualImageOrFail(type: .S16)
-    let targetImage2 = virtualImageOrFail(type: .S16)
+    let targetImage1 = targetImageOrFail(type: .S16)
+    let targetImage2 = targetImageOrFail(type: .S16)
     return self
       .byChanging(node:vxSobel3x3Node(graph, lastImageOrFail(), targetImage1, targetImage2))
       .byChanging(images:self.images.appending(targetImage1).appending(targetImage2))
   }
 
   public func magnitude() -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .S16)
+    let targetImage = targetImageOrFail(type: .S16)
     return self
       .byChanging(node:vxMagnitudeNode(graph, lastImageOrFail(plus:1), lastImageOrFail(plus:0), targetImage))
       .byChanging(images:self.images.appending(targetImage))

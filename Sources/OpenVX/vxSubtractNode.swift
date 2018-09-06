@@ -11,7 +11,7 @@ public func vxSubtractNode(_ graph: Graph, _ input1: Imageable, _ input2: Imagea
 
 public extension Pipeline {
   public func subtract(image: Imageable, policy: ConversionPolicy) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: .U8)
+    let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxSubtractNode(graph, lastImageOrFail(), image, policy, targetImage))
       .byChanging(images:self.images.appending(targetImage))

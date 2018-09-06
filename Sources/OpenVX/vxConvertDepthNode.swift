@@ -11,7 +11,7 @@ public func vxConvertDepthNode(_ graph: Graph, _ input: Imageable, _ output: Ima
 
 public extension Pipeline {
   public func convertDepth(to imageType: ImageType = .U8, policy: ConversionPolicy, shift: Scalar<Int32>) -> Pipeline {
-    let targetImage = virtualImageOrFail(type: imageType)
+    let targetImage = targetImageOrFail(type: imageType)
     return self
       .byChanging(node:vxConvertDepthNode(graph, lastImageOrFail(), targetImage, policy, shift))
       .byChanging(images:self.images.appending(targetImage))

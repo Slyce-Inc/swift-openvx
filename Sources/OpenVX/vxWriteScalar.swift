@@ -14,3 +14,8 @@ public func vxWriteScalar(_ scalar: vx_scalar?, _ uint8: UInt8) {
   var value = uint8
   vxCopyScalar(scalar, &value, VX_WRITE_ONLY, VX_MEMORY_TYPE_HOST)
 }
+
+public func vxWriteScalar(_ scalar: vx_scalar?, _ uint32: UInt32) {
+  var value = uint32
+  vxCopyScalar(scalar, &value, VX_WRITE_ONLY, VX_MEMORY_TYPE_HOST)
+}

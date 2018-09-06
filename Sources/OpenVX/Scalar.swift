@@ -37,7 +37,6 @@ public class Scalar<T:Scalarable>: Referenceable {
       vxCopyScalar(self.reference, &bp, VX_WRITE_ONLY, VX_MEMORY_TYPE_HOST)
     }
   }
-
 }
 
 fileprivate func bitPatternFor<T>(value: T) -> UInt32 {
@@ -46,6 +45,8 @@ fileprivate func bitPatternFor<T>(value: T) -> UInt32 {
     return value ? 1 : 0
   case let value as Int32:
     return UInt32(value)
+  case let value as UInt32:
+    return value
   case let value as Float:
     return value.bitPattern
   case let value as UInt8:
@@ -61,6 +62,8 @@ fileprivate func valueFor<T>(bitPattern: UInt32) -> T {
     return (bitPattern > 0) as! T
   case is Int32.Type:
     return Int32(bitPattern) as! T
+  case is UInt32.Type:
+    return UInt32(bitPattern) as! T
   case is Float.Type:
     return Float(bitPattern: bitPattern) as! T
   case is UInt8.Type:
@@ -78,3 +81,4 @@ extension Bool: Scalarable {}
 extension Float: Scalarable {}
 extension Int32: Scalarable {}
 extension UInt8: Scalarable {}
+extension UInt32: Scalarable {}

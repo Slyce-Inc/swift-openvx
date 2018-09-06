@@ -37,6 +37,7 @@ public class Graph: Referenceable {
     return vxVerifyGraph(reference)
   }
 
+  @discardableResult
   public func process() -> Int32 {
     return vxProcessGraph(reference)
   }
@@ -50,7 +51,7 @@ public extension Graph {
 
 public extension Graph {
   public func pipe(image: Imageable) -> Pipeline {
-    return Pipeline(graph: self, node: nil, width: image.width, height: image.height, border: nil, images: [image])
+    return Pipeline(graph: self, node: nil, width: image.width, height: image.height, border: nil, images: [image], targetImage: nil)
   }
 }
 
