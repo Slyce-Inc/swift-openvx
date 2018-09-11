@@ -55,7 +55,7 @@ public class Image: Referenceable, Imageable {
 }
 
 
-public extension Image {
+public extension Imageable {
   public func accessPatch<T>(plane: Int, accessType: Int32, _ block: (vx_imagepatch_addressing_t, UnsafeMutableRawPointer) -> T) throws -> T {
     var base: UnsafeMutableRawPointer?
     var addr = vx_imagepatch_addressing_t()

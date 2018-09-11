@@ -8,3 +8,12 @@ public func vxOrNode(_ graph: Graph, _ input1: Imageable, _ input2: Imageable, _
   defer { vxReleaseNode(reference) }
   return Node(reference: reference)
 }
+
+public extension Pipeline {
+  public func or(image: Imageable) -> Pipeline {
+    let targetImage = targetImageOrFail(type: .U8)
+    return self
+      .byChanging(node:vxOrNode(graph, lastImageOrFail(), image, targetImage))
+      .byChanging(images:self.images.appending(targetImage))
+  }
+}
