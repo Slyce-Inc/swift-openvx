@@ -4,7 +4,7 @@ import Clibvisionworks
 public class Kernel: Referenceable {
   public let reference: vx_kernel
 
-  init(reference: vx_kernel) {
+  public required init(reference: vx_kernel) {
     vxRetainReference(reference)
     self.reference = reference
   }

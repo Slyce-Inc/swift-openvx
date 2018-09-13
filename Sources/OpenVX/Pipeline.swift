@@ -95,6 +95,20 @@ public struct Pipeline {
       targetImage: targetImage
     )
   }
+
+  public func byAppending(image:Imageable) -> Pipeline {
+    var copyOfImages = Array(self.images)
+    copyOfImages.append(image)
+    return Pipeline(
+      graph: self.graph,
+      node: self.node,
+      width: self.width,
+      height: self.height,
+      border: self.border,
+      images: copyOfImages,
+      targetImage: self.targetImage
+    )
+  }
 }
 
 //  TODO: Do away with the need for this.

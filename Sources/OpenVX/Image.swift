@@ -9,7 +9,7 @@ public class Image: Referenceable, Imageable {
   public let reference: vx_image
   private var planes: Planes? = nil
 
-  public init(reference: vx_image) {
+  public required init(reference: vx_image) {
     vxRetainReference(reference)
     self.reference = reference
   }

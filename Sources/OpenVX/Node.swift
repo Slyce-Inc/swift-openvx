@@ -3,7 +3,7 @@ import Clibvisionworks
 public class Node: Referenceable {
   public let reference: vx_node
 
-  init!(reference: vx_node) {
+  public required init(reference: vx_node) {
     vxRetainReference(reference)
     self.reference = reference
   }

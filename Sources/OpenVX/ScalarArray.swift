@@ -4,6 +4,11 @@ import Clibvisionworks
 public class ScalarArray: Referenceable {
   public let reference: vx_array
 
+  public required init(reference: vx_array) {
+    vxRetainReference(reference)
+    self.reference = reference
+  }
+
   public init!(graph: Graph, type: DataType, count: Int, virtual:Bool = true) {
     if virtual {
       guard let reference = vxCreateVirtualArray(graph.reference, type.vx_value, vx_size(count)) else {

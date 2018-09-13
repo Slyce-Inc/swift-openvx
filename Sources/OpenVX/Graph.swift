@@ -3,14 +3,17 @@ import Clibvisionworks
 
 public class Graph: Referenceable {
   public let reference: vx_graph
-  public let context: Context
+
+  public required init(reference: vx_graph) {
+    vxRetainReference(reference)
+    self.reference = reference
+  }
 
   public init?(context: Context) {
     guard let reference = vxCreateGraph(context.reference) else {
       return nil
     }
     self.reference = reference
-    self.context = context
   }
 
   deinit {
@@ -18,7 +21,8 @@ public class Graph: Referenceable {
   }
 
   public func createNode(withKernelName name: String, parameters: [Referenceable?] = []) throws -> Node {
-    let kernel = try self.context.kernel(byName: name)
+    let context = Context(reference:vxGetContext(self.reference)!)
+    let kernel = try context.kernel(byName: name)
     let node = try self.createNode(kernel: kernel)
     if parameters.count > 0 {
       try node.setParameters(parameters)

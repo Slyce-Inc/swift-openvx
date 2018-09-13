@@ -4,6 +4,7 @@ import Clibvisionworks
 public enum ImageType {
   case U8
   case S16
+  case S32
   case RGB
   case NV12
   case IYUV
@@ -18,6 +19,8 @@ extension ImageType {
       return Clibvisionworks.VX_DF_IMAGE_U8.rawValue
     case .S16:
       return Clibvisionworks.VX_DF_IMAGE_S16.rawValue
+    case .S32:
+      return Clibvisionworks.VX_DF_IMAGE_S32.rawValue
     case .RGB:
       return Clibvisionworks.VX_DF_IMAGE_RGB.rawValue
     case .NV12:

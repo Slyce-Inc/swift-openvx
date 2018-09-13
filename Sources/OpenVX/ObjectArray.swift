@@ -4,6 +4,11 @@ import Clibvisionworks
 public class ObjectArray<T:ObjectArrayable>: Referenceable {
   public let reference: vx_object_array
 
+  public required init(reference: vx_object_array) {
+    vxRetainReference(reference)
+    self.reference = reference
+  }
+
   public init!(context: Context, exemplar: T, count: Int) {
     guard let reference = vxCreateObjectArray(context.reference, exemplar.reference, vx_size(count)) else {
       return nil
