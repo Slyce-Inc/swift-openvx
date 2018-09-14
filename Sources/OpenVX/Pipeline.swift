@@ -16,7 +16,7 @@ public struct Pipeline {
 
   public func targetImageOrFail(type: ImageType) -> Imageable {
     if let targetImage = self.targetImage {
-      assert(targetImage.format == type, "Supplied targetImage is not of the type (\(image.format)) required \(type)")
+      assert(targetImage.format == type, "Supplied targetImage is not of the type (\(targetImage.format)) required (\(type))")
       return targetImage
     }
     guard let image = graph.createImage(width: self.width, height: self.height, type: type) else {

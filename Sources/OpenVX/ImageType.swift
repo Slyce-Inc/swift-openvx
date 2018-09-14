@@ -33,4 +33,27 @@ extension ImageType {
       return Clibvisionworks.VX_DF_IMAGE_VIRT.rawValue
     }
   }
+
+  static func from(value:vx_df_image) -> ImageType {
+    switch value {
+    case Clibvisionworks.VX_DF_IMAGE_U8.rawValue:
+      return .U8
+    case Clibvisionworks.VX_DF_IMAGE_S16.rawValue:
+      return .S16
+    case Clibvisionworks.VX_DF_IMAGE_S32.rawValue:
+      return .S32
+    case Clibvisionworks.VX_DF_IMAGE_RGB.rawValue:
+      return .RGB
+    case Clibvisionworks.VX_DF_IMAGE_NV12.rawValue:
+      return .NV12
+    case Clibvisionworks.VX_DF_IMAGE_IYUV.rawValue:
+      return .IYUV
+    case Clibvisionworks.VX_DF_IMAGE_YUV4.rawValue:
+      return .YUV4
+    case Clibvisionworks.VX_DF_IMAGE_VIRT.rawValue:
+      return .Virtual
+    default:
+      preconditionFailure("Unable to determine ImageType from value \(value)")
+    }
+  }
 }
