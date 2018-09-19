@@ -1,17 +1,20 @@
 import Clibvisionworks
 
 
+
 public class Image: Referenceable, Imageable {
+  public typealias Deallocator = () -> ()
   public typealias Plane = UnsafeMutableRawPointer
   public typealias Planes = [Plane?]
   public typealias PatchAddressing = vx_imagepatch_addressing_t
 
   public let reference: vx_image
-  private var planes: Planes? = nil
+  private let deallocator: Deallocator?
 
   public required init(reference: vx_image) {
     vxRetainReference(reference)
     self.reference = reference
+    self.deallocator = nil
   }
 
   public init?(context: Context, width: Int, height: Int, type: ImageType) {
@@ -20,18 +23,21 @@ public class Image: Referenceable, Imageable {
       return nil
     }
     self.reference = reference
+    self.deallocator = nil
   }
 
-  public init?(context: Context, width: Int, height: Int, type: ImageType, planes:Planes, memoryType: MemoryType) {
+  public init?(context: Context, width: Int, height: Int, type: ImageType, planes:Planes, memoryType: MemoryType, deallocator: Deallocator? = nil) {
     assert(type != .Virtual, "OpenVX.Image should never be created with type .Virtual")
     guard let reference = vxCreateImageFromHandle(context.reference, type.vx_value, type.calculateImagePatchAddressing(width:width, height:height), planes, memoryType.vx_value) else {
       return nil
     }
     self.reference = reference
+    self.deallocator = deallocator
   }
 
   deinit {
     vxReleaseImage(reference)
+    deallocator?()
   }
 
   public func from(regionOfInterest rectangle: Rectangle) -> Image? {
