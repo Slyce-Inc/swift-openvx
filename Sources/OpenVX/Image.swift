@@ -50,10 +50,10 @@ public class Image: Referenceable, Imageable {
   }
 
   @discardableResult
-  public func swap(planes: Planes) -> Planes? {
-    var newPlanes = planes
-    var nowPlanes = Planes(repeating: nil, count: planes.count)
-    if case let result = vxSwapImageHandle(self.reference, &newPlanes, &nowPlanes, vx_size(planes.count)), result != VX_SUCCESS {
+  public func swap(planes: Planes?) -> Planes? {
+    let numberOfPlanes = self.format.numberOfPlanes
+    var nowPlanes = Planes(repeating: nil, count: numberOfPlanes)
+    if case let result = vxSwapImageHandle(self.reference, planes, &nowPlanes, vx_size(numberOfPlanes)), result != VX_SUCCESS {
       return nil
     }
     return nowPlanes
