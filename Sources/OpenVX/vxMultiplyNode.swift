@@ -13,7 +13,7 @@ public extension Pipeline {
   public func multiply(format:ImageType = .U8, scale:Scalar<Float>, overflowPolicy:ConversionPolicy, roundingPolicy:RoundingPolicy) -> Pipeline {
     let targetImage = targetImageOrFail(type:format)
     return self
-      .byChanging(node:vxMultiplyNode(graph, lastImageOrFail(plus:1), lastImageOrFail(plus:1), scale, overflowPolicy, roundingPolicy, targetImage))
+      .byChanging(node:vxMultiplyNode(graph, lastImageOrFail(plus:1), lastImageOrFail(), scale, overflowPolicy, roundingPolicy, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 }
