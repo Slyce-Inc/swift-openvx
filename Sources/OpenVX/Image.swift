@@ -136,24 +136,30 @@ extension ImageType {
   public func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
     switch self {
       case .U8:
-        guard let ptr = malloc(width * height) else {
+        let bytesRequired = width * height
+        guard let ptr = malloc(bytesRequired) else {
           return nil
         }
+        bzero(ptr, bytesRequired)
         return [ptr]
 
       case .NV12:
-        guard let ptr = malloc((width * height) + (width * (height >> 1))) else {
+        let bytesRequired = (width * height) + (width * (height >> 1))
+        guard let ptr = malloc(bytesRequired) else {
           return nil
         }
+        bzero(ptr, width * height)
         return [
           ptr,
           ptr + (width * height)
         ]
 
       case .IYUV:
-        guard let ptr = malloc((width * height) * 2) else {
+        let bytesRequired = (width * height) * 2
+        guard let ptr = malloc(bytesRequired) else {
           return nil
         }
+        bzero(ptr, bytesRequired)
         return [
           ptr,
           ptr + (width * height),
@@ -161,9 +167,11 @@ extension ImageType {
         ]
 
       case .RGB:
-        guard let ptr = malloc(width * height * 3) else {
+        let bytesRequired = (width * height) * 3
+        guard let ptr = malloc(bytesRequired) else {
           return nil
         }
+        bzero(ptr, bytesRequired)
         return [ptr]
 
       default:
@@ -178,7 +186,7 @@ extension ImageType {
     case .U8, .RGB:
       return 1
     case .NV12:
-      return 2
+        return 2
     case .IYUV:
       return 3
     default:
