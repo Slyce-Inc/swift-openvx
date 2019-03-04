@@ -18,4 +18,13 @@ public extension Pipeline {
       .byChanging(images:self.images.appending(targetImage))
       .byChanging(width:targetImage.width, height:targetImage.height)
   }
+
+  public func scale(width:Int, height:Int, interpolationPolicy:InterpolationPolicy) -> Pipeline {
+    let sourceImage = lastImageOrFail()
+    let targetImage = graph.createImage(width: width, height: height, type: .U8)!
+    return self
+      .byChanging(node:vxScaleImageNode(graph, sourceImage, targetImage, interpolationPolicy))
+      .byChanging(images:self.images.appending(targetImage))
+      .byChanging(width:width, height:height)
+  }
 }
