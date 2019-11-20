@@ -62,7 +62,7 @@ public class Image: Referenceable, Imageable {
 
 
 public extension Imageable {
-  public func accessPatch<T>(plane: Int, accessType: Int32, _ block: (vx_imagepatch_addressing_t, UnsafeMutableRawPointer) -> T) throws -> T {
+  func accessPatch<T>(plane: Int, accessType: Int32, _ block: (vx_imagepatch_addressing_t, UnsafeMutableRawPointer) -> T) throws -> T {
     var base: UnsafeMutableRawPointer?
     var addr = vx_imagepatch_addressing_t()
     if case let status = vxAccessImagePatch(self.reference, nil, vx_uint32(plane), &addr, &base, accessType), VX_SUCCESS != status {
@@ -75,7 +75,7 @@ public extension Imageable {
 }
 
 public extension Image {
-  public class Mapping {
+  class Mapping {
     let image: Image
     let mapId: vx_map_id
     public let memory: Plane?
@@ -93,7 +93,7 @@ public extension Image {
     }
   }
 
-  public func map(rectangle: Rectangle? = nil, plane:Int, usage:Usage) -> Mapping? {
+  func map(rectangle: Rectangle? = nil, plane:Int, usage:Usage) -> Mapping? {
     var addr = Image.PatchAddressing()
     var ptr: Image.Plane?
     var map_id: vx_map_id = 0
@@ -105,7 +105,7 @@ public extension Image {
 }
 
 extension ImageType {
-  public func calculateImagePatchAddressing(width:Int, height:Int) -> [vx_imagepatch_addressing_t] {
+  func calculateImagePatchAddressing(width:Int, height:Int) -> [vx_imagepatch_addressing_t] {
     switch self {
       case .U8:
         return [
@@ -133,7 +133,7 @@ extension ImageType {
 }
 
 extension ImageType {
-  public func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
+  func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
     switch self {
       case .U8:
         let bytesRequired = width * height
@@ -181,7 +181,7 @@ extension ImageType {
 }
 
 extension ImageType {
-  public var numberOfPlanes:Int {
+  var numberOfPlanes:Int {
     switch self {
     case .U8, .RGB:
       return 1
