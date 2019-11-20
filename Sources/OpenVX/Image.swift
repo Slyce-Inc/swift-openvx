@@ -132,7 +132,7 @@ extension ImageType {
   }
 }
 
-extension ImageType {
+public extension ImageType {
   func allocatePlanes(width:Int, height:Int) -> Image.Planes? {
     switch self {
       case .U8:
@@ -180,7 +180,7 @@ extension ImageType {
   }
 }
 
-extension ImageType {
+public extension ImageType {
   var numberOfPlanes:Int {
     switch self {
     case .U8, .RGB:
