@@ -48,13 +48,13 @@ public class Graph: Referenceable {
 }
 
 public extension Graph {
-  public func createImage(width: Int = 0, height: Int = 0, type: ImageType = .Virtual) -> VirtualImage! {
+  func createImage(width: Int = 0, height: Int = 0, type: ImageType = .Virtual) -> VirtualImage! {
     return VirtualImage(graph: self, width: width, height: height, type: type)
   }
 }
 
 public extension Graph {
-  public func pipe(image: Imageable) -> Pipeline {
+  func pipe(image: Imageable) -> Pipeline {
     return Pipeline(graph: self, node: nil, width: image.width, height: image.height, border: nil, images: [image], targetImage: nil)
   }
 }

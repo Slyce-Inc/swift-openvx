@@ -10,7 +10,7 @@ public func vxScaleImageNode(_ graph: Graph, _ input: Imageable, _ output: Image
 }
 
 public extension Pipeline {
-  public func scale(to targetImage:Imageable? = nil, interpolationPolicy:InterpolationPolicy) -> Pipeline {
+  func scale(to targetImage:Imageable? = nil, interpolationPolicy:InterpolationPolicy) -> Pipeline {
     let sourceImage = lastImageOrFail()
     let targetImage = targetImage ?? targetImageOrFail(type:.U8)
     return self
@@ -19,7 +19,7 @@ public extension Pipeline {
       .byChanging(width:targetImage.width, height:targetImage.height)
   }
 
-  public func scale(width:Int, height:Int, interpolationPolicy:InterpolationPolicy) -> Pipeline {
+  func scale(width:Int, height:Int, interpolationPolicy:InterpolationPolicy) -> Pipeline {
     let sourceImage = lastImageOrFail()
     let targetImage = graph.createImage(width: width, height: height, type: .U8)!
     return self

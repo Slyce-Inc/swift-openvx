@@ -10,7 +10,7 @@ public func vxMeanStdDevNode(_ graph:Graph, _ input:Imageable, _ mean:Scalar<Flo
 }
 
 public extension Pipeline {
-  public func meanStdDev(_ mean:Scalar<Float>, _ stddev:Scalar<Float>) -> Pipeline {
+  func meanStdDev(_ mean:Scalar<Float>, _ stddev:Scalar<Float>) -> Pipeline {
     return self
       .byChanging(node:vxMeanStdDevNode(graph, lastImageOrFail(), mean, stddev))
   }

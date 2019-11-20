@@ -10,7 +10,7 @@ public func vxMultiplyNode(_ graph: Graph, _ input1: Imageable, _ input2: Imagea
 }
 
 public extension Pipeline {
-  public func multiply(format:ImageType = .U8, scale:Scalar<Float>, overflowPolicy:ConversionPolicy, roundingPolicy:RoundingPolicy) -> Pipeline {
+  func multiply(format:ImageType = .U8, scale:Scalar<Float>, overflowPolicy:ConversionPolicy, roundingPolicy:RoundingPolicy) -> Pipeline {
     let targetImage = targetImageOrFail(type:format)
     return self
       .byChanging(node:vxMultiplyNode(graph, lastImageOrFail(plus:1), lastImageOrFail(), scale, overflowPolicy, roundingPolicy, targetImage))

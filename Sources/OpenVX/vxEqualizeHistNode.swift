@@ -10,7 +10,7 @@ public func vxEqualizeHistNode(_ graph: Graph, _ from: Imageable, _ to: Imageabl
 }
 
 public extension Pipeline {
-  public func equalizeHist() -> Pipeline {
+  func equalizeHist() -> Pipeline {
     let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxEqualizeHistNode(graph, lastImageOrFail(), targetImage))

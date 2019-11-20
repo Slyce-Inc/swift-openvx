@@ -38,7 +38,7 @@ public class Node: Referenceable {
 }
 
 public extension Node {
-  public func setBorder(_ border: Border) {
+  func setBorder(_ border: Border) {
     var b = border
     vxSetNodeAttribute(self.reference, Int32(VX_NODE_BORDER.rawValue), &b, MemoryLayout.size(ofValue: b))
   }

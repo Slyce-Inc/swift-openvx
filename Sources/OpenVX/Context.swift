@@ -83,14 +83,14 @@ public class Context {
 }
 
 public extension Context {
-  public func kernel(byName name: String) throws -> Kernel {
+  func kernel(byName name: String) throws -> Kernel {
     guard let reference = vxGetKernelByName(self.reference, name) else {
       throw ContextError.FailedToGetKernelWithName(name:name)
     }
     return Kernel(reference:reference)
   }
 
-  public func kernel(byEnum value: Int) throws -> Kernel {
+  func kernel(byEnum value: Int) throws -> Kernel {
     guard let reference = vxGetKernelByEnum(self.reference, vx_int32(value)) else {
       throw ContextError.FailedToGetKernelWithEnum(value:value)
     }
@@ -99,7 +99,7 @@ public extension Context {
 }
 
 public extension Context {
-  public func image(width: Int, height: Int, type: ImageType) -> Image! {
+  func image(width: Int, height: Int, type: ImageType) -> Image! {
     return Image(context: self, width: width, height: height, type: type)
   }
 }

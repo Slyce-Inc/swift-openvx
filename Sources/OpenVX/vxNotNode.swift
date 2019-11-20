@@ -10,7 +10,7 @@ public func vxNotNode(_ graph: Graph, _ input: Imageable, _ output: Imageable) -
 }
 
 public extension Pipeline {
-  public func not() -> Pipeline {
+  func not() -> Pipeline {
     let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxNotNode(graph, lastImageOrFail(), targetImage))

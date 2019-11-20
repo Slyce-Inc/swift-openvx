@@ -10,7 +10,7 @@ public func vxAccumulateWeightedImageNode(_ graph: Graph, _ input: Imageable, _ 
 }
 
 public extension Pipeline {
-  public func accumulateWeighted(into image: Imageable, alpha: Scalar<Float>) -> Pipeline {
+  func accumulateWeighted(into image: Imageable, alpha: Scalar<Float>) -> Pipeline {
     return self
       .byChanging(node:vxAccumulateWeightedImageNode(graph, lastImageOrFail(), alpha, image))
       .byAppending(image:image)

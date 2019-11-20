@@ -10,7 +10,7 @@ public func vxAddNode(_ graph: Graph, _ input1: Imageable, _ input2: Imageable, 
 }
 
 public extension Pipeline {
-  public func add(image: Imageable, policy: ConversionPolicy) -> Pipeline {
+  func add(image: Imageable, policy: ConversionPolicy) -> Pipeline {
     let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxAddNode(graph, lastImageOrFail(), image, policy, targetImage))

@@ -121,40 +121,40 @@ public extension Array where Element:Any {
 }
 
 public extension Pipeline {
-  public func defineSize(width: Int, height: Int) -> Pipeline {
+  func defineSize(width: Int, height: Int) -> Pipeline {
     return self
       .byChanging(width: width, height: height)
   }
 
-  public func define(border: Border) -> Pipeline {
+  func define(border: Border) -> Pipeline {
     return self
       .byChanging(border: border)
   }
 }
 
 public extension Pipeline {
-  public func apply(lookupTable: LookupTable) -> Pipeline {
+  func apply(lookupTable: LookupTable) -> Pipeline {
     let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxTableLookupNode(graph, lastImageOrFail(), lookupTable, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
-  public func apply(threshold: Threshold) -> Pipeline {
+  func apply(threshold: Threshold) -> Pipeline {
     let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxThresholdNode(graph, lastImageOrFail(), threshold, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
-  public func warpAffine(matrix: Matrix<Float>, interpolationPolicy: InterpolationPolicy) -> Pipeline {
+  func warpAffine(matrix: Matrix<Float>, interpolationPolicy: InterpolationPolicy) -> Pipeline {
     let targetImage = targetImageOrFail(type: .U8)
     return self
       .byChanging(node:vxWarpAffineNode(graph, lastImageOrFail(), matrix, interpolationPolicy, targetImage))
       .byChanging(images:self.images.appending(targetImage))
   }
 
-  public func sobel3x3() -> Pipeline {
+  func sobel3x3() -> Pipeline {
     let targetImage1 = targetImageOrFail(type: .S16)
     let targetImage2 = targetImageOrFail(type: .S16)
     return self
@@ -162,7 +162,7 @@ public extension Pipeline {
       .byChanging(images:self.images.appending(targetImage1).appending(targetImage2))
   }
 
-  public func magnitude() -> Pipeline {
+  func magnitude() -> Pipeline {
     let targetImage = targetImageOrFail(type: .S16)
     return self
       .byChanging(node:vxMagnitudeNode(graph, lastImageOrFail(plus:1), lastImageOrFail(plus:0), targetImage))

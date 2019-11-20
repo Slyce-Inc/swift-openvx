@@ -10,7 +10,7 @@ public func vxHistogramNode(_ graph: Graph, _ input: Imageable, _ distribution: 
 }
 
 public extension Pipeline {
-  public func histogram(_ distribution: Distribution) -> Pipeline {
+  func histogram(_ distribution: Distribution) -> Pipeline {
     return self
       .byChanging(node:vxHistogramNode(graph, lastImageOrFail(), distribution))
   }
