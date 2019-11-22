@@ -9,12 +9,12 @@ let package = Package(
     .library(name: "Clibvisionworks", targets: ["Clibvisionworks"])
   ],
   dependencies: [
-    .package(url: "git@github.com:ilmco/Clibcuda.git", .branch("master"))
+    .package(url: "git@github.com:Slyce-Inc/swift-cuda.git", from: "1.0.0")
   ],
   targets: [
     .target(
       name: "OpenVX",
-      dependencies: ["Clibvisionworks", "Clibcuda"]
+      dependencies: ["Clibvisionworks", "Clibcudart"]
     ),
     .testTarget(
       name: "OpenVXTests",
