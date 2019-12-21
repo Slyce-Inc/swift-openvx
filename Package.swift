@@ -9,7 +9,7 @@ let package = Package(
     .library(name: "Clibvisionworks", targets: ["Clibvisionworks"])
   ],
   dependencies: [
-    .package(url: "git@github.com:Slyce-Inc/swift-cuda.git", from: "1.0.0")
+    .package(url: "https://github.com/Slyce-Inc/swift-cuda.git", from: "1.0.0")
   ],
   targets: [
     .target(
